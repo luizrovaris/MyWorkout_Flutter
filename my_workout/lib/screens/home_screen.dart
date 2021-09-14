@@ -21,18 +21,34 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ButtonBar(
-              children: _getButtonBar(),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bg3.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          TodayWorkout(),
+          Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: Column(
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ButtonBar(
+                    children: _getButtonBar(),
+                  ),
+                ),
+                TodayWorkout(),
+              ],
+            ),
+          ),
         ],
       ),
     );

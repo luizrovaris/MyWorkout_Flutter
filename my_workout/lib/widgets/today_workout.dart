@@ -21,9 +21,12 @@ class TodayWorkout extends StatelessWidget {
                   Row(
                     children: [
                       Flexible(
-                        child: Text(
-                          'Daily Workout',
-                          style: Theme.of(context).textTheme.headline1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Daily Workout',
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
                         ),
                       ),
                     ],
@@ -31,9 +34,12 @@ class TodayWorkout extends StatelessWidget {
                   Row(
                     children: [
                       Flexible(
-                        child: Text(
-                          'Abs Advanced',
-                          style: Theme.of(context).textTheme.subtitle2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Abs Advanced',
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
                         ),
                       ),
                     ],
@@ -42,12 +48,18 @@ class TodayWorkout extends StatelessWidget {
               ),
             ),
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
               child: Image(
                 image: NetworkImage(
                     'https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg'),
                 width: _query.size.width * 0.35,
                 height: 200,
+                fit: BoxFit.cover,
               ),
             ),
           ],
