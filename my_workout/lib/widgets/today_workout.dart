@@ -6,6 +6,10 @@ class TodayWorkout extends StatelessWidget {
     final _query = MediaQuery.of(context);
 
     return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: Row(
@@ -16,24 +20,34 @@ class TodayWorkout extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('Daily Workout'),
+                      Flexible(
+                        child: Text(
+                          'Daily Workout',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('---'),
+                      Flexible(
+                        child: Text(
+                          'Abs Advanced',
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            ClipRRect(            
-              borderRadius: BorderRadius.circular(18.5),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
               child: Image(
-                image: NetworkImage('https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg'),
+                image: NetworkImage(
+                    'https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg'),
                 width: _query.size.width * 0.35,
                 height: 200,
-            
               ),
             ),
           ],
