@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../screens/home_screen.dart';
+import '../screens/workout_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -14,7 +19,7 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
               title: Text('Home'),
-              onTap: () => print('Home...'),
+              onTap: () => HomeScreen(),
             ),
             ListTile(
               leading: Icon(
@@ -22,7 +27,17 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
               title: Text('Workouts'),
-              onTap: () => print('Workouts...'),
+              onTap: () => Navigator.of(context).push(
+                Platform.isIOS
+                    ? CupertinoPageRoute(
+                        builder: (_) => WorkoutScreen(),
+                        settings: RouteSettings(arguments: 1),
+                      )
+                    : MaterialPageRoute(
+                        builder: (_) => WorkoutScreen(),
+                        settings: RouteSettings(arguments: {'Key' : 'Value'}),
+                      ),
+              ), //RouteSettings can be used to send args to the widget that is being opened.
             ),
           ],
         ),
