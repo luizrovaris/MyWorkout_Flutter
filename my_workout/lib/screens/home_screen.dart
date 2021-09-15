@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_drawer.dart';
 import '../widgets/today_workout.dart';
 import '../utils/utils.dart';
 
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Home'),
       ),
