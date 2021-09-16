@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './screens/home_screen.dart';
+import '../screens/workout_screen.dart';
+import '../screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +36,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
+      //home: HomeScreen(), //Mapped above, on routes...
+      routes: {
+        HomeScreen.route: (_) => HomeScreen(),
+        WorkoutScreen.route: (_) => WorkoutScreen(),
+      },
     );
   }
 }

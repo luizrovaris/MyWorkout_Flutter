@@ -4,6 +4,8 @@ import '../widgets/today_workout.dart';
 import '../utils/utils.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const route = '/';
+
   List<TextButton> _getButtonBar() {
     List<TextButton> _list = [];
 

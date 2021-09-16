@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_drawer.dart';
 
 class WorkoutScreen extends StatelessWidget {
+  static const route = '/workout';
   @override
   Widget build(BuildContext context) {
     //Get the value sent from PageRoute.RouteSettings.arguments
@@ -12,6 +14,7 @@ class WorkoutScreen extends StatelessWidget {
         title: Text('Workout'),
       ),
       extendBodyBehindAppBar: true,
+      drawer: AppDrawer(),//By using drawer the arrow to return is replaced by the menu defined on AppDrawer.
       body: Stack(
         children: [
           Container(

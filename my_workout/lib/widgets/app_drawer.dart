@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
               title: Text('Home'),
-              onTap: () => HomeScreen(),
+              onTap: () => Navigator.of(context).pushNamed(HomeScreen.route),
             ),
             ListTile(
               leading: Icon(
@@ -27,17 +27,22 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
               title: Text('Workouts'),
-              onTap: () => Navigator.of(context).push(
-                Platform.isIOS
-                    ? CupertinoPageRoute(
-                        builder: (_) => WorkoutScreen(),
-                        settings: RouteSettings(arguments: 1),
-                      )
-                    : MaterialPageRoute(
-                        builder: (_) => WorkoutScreen(),
-                        settings: RouteSettings(arguments: {'Key' : 'Value'}),
-                      ),
-              ), //RouteSettings can be used to send args to the widget that is being opened.
+              onTap: () => Navigator.of(context).pushNamed(
+                WorkoutScreen.route,
+                arguments: {'Key': 'Value'},
+              ),
+              //SIMPLE NAVIGATION SAMPLE:
+              // onTap: () => Navigator.of(context).push(
+              //   Platform.isIOS
+              //       ? CupertinoPageRoute(
+              //           builder: (_) => WorkoutScreen(),
+              //           settings: RouteSettings(arguments: 1),
+              //         )
+              //       : MaterialPageRoute(
+              //           builder: (_) => WorkoutScreen(),
+              //           settings: RouteSettings(arguments: {'Key' : 'Value'}),
+              //         ),
+              // ), //RouteSettings can be used to send args to the widget that is being opened.
             ),
           ],
         ),
