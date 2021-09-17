@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/workout_management_screen.dart';
 import '../widgets/workout_screen_custom_clipper.dart';
 import '../widgets/app_drawer.dart';
 
@@ -15,6 +16,14 @@ class WorkoutScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Workout'),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.of(context).pushNamed(
+                    WorkoutManagementScreen.route,
+                    arguments: {'title': 'New Workout'},
+                  ),
+              icon: Icon(Icons.add)),
+        ],
       ),
       extendBodyBehindAppBar: true,
       drawer:
