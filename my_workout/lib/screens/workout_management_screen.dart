@@ -8,6 +8,32 @@ class WorkoutManagementScreen extends StatefulWidget {
 }
 
 class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
+  final _imageFocus = FocusNode();
+  final _dropDownFocus = FocusNode();
+  final _form = GlobalKey<FormState>();
+
+  bool _dropDownValid = true;
+  int _dropDownValue = 0;
+
+  void _save() {
+    if (_dropDownValue > 0) {
+      setState(() {
+        _dropDownValid = true;
+      });
+    } else {
+      setState(() {
+        _dropDownValid = false;
+      });
+    }
+
+    bool valid = _form.currentState!.validate();
+    if (valid && _dropDownValid) {
+      print('Form is valid');
+    } else {
+      print('Invalid form.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, Object> arguments =
@@ -29,13 +55,34 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
           Padding(
             padding: const EdgeInsets.all(15),
             child: Form(
+              key: _form,
               child: ListView(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Name'),
-                  ),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(_imageFocus),
+                      decoration: InputDecoration(labelText: 'Name'),
+                      validator: (value) {
+                        if (value!.isEmpty || value.length < 3) {
+                          return 'Name must be greater than 3 characters.';
+                        }
+                        return null;
+                      }),
                   TextFormField(
+                    focusNode: _imageFocus,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_dropDownFocus),
                     decoration: InputDecoration(labelText: 'Image URL'),
+                    validator: (value) {
+                      if (value!.isEmpty &&
+                          (!value.startsWith('http://') &&
+                              !value.startsWith('https://'))) {
+                        return 'Invalid image URL address.';
+                      }
+                      return null;
+                    },
                   ),
                   SizedBox(
                     height: 0.5,
@@ -45,6 +92,8 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                       color: Theme.of(context).inputDecorationTheme.fillColor,
                       padding: EdgeInsets.all(15),
                       child: DropdownButton(
+                        value: _dropDownValue,
+                        focusNode: _dropDownFocus,
                         items: Utils.getWeekDaysList()
                             .map(
                               (e) => DropdownMenuItem(
@@ -53,7 +102,11 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                               ),
                             )
                             .toList(),
-                        onChanged: (value) => print(value),
+                        onChanged: (value) {
+                          setState(() {
+                            _dropDownValue = value as int;
+                          });
+                        },
                         hint: Text(
                           'Weed day',
                           style: TextStyle(
@@ -69,6 +122,27 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                           color: Theme.of(context).textTheme.headline1?.color,
                         ),
                         dropdownColor: Color.fromRGBO(48, 56, 62, 0.9),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _dropDownValid ? '' : 'Select one item.',
+                      style: TextStyle(
+                        color: Theme.of(context).errorColor,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _save,
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headline1?.color,
+                        ),
                       ),
                     ),
                   ),
