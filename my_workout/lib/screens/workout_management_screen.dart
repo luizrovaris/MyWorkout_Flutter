@@ -26,25 +26,54 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
               image: AssetImage('assets/images/bg2.jpg'),
             )),
           ),
-          Form(
-            child: ListView(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Name'),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Image URL'),
-                ),
-                DropdownButton(
-                  items: Utils.getWeekDaysList().map(
-                    (e) => DropdownMenuItem(
-                      child: Text(e['name'].toString()),
-                      value: e['id'],
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Form(
+              child: ListView(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Name'),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Image URL'),
+                  ),
+                  SizedBox(
+                    height: 0.5,
+                  ),
+                  DropdownButtonHideUnderline(
+                    child: Container(
+                      color: Theme.of(context).inputDecorationTheme.fillColor,
+                      padding: EdgeInsets.all(15),
+                      child: DropdownButton(
+                        items: Utils.getWeekDaysList()
+                            .map(
+                              (e) => DropdownMenuItem(
+                                child: Text(e['name'].toString()),
+                                value: e['id'],
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) => print(value),
+                        hint: Text(
+                          'Weed day',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.subtitle2?.color),
+                        ),
+                        icon: Icon(Icons.calendar_today),
+                        isExpanded: true,
+                        iconEnabledColor: Theme.of(context).accentColor,
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.subtitle1?.fontSize,
+                          color: Theme.of(context).textTheme.headline1?.color,
+                        ),
+                        dropdownColor: Color.fromRGBO(48, 56, 62, 0.9),
+                      ),
                     ),
-                  ).toList(),
-                  onChanged: (value) => print(value),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
