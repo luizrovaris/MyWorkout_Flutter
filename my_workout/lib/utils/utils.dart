@@ -15,6 +15,7 @@ class Utils {
 
   static List<Map<String, Object>> getWeekDaysList() {
     List<Map<String, Object>> weekDayMap = [
+      {'id': 0, 'name': 'Select'},
       {'id': 1, 'name': 'Sun'},
       {'id': 2, 'name': 'Mon'},
       {'id': 3, 'name': 'Tue'},
