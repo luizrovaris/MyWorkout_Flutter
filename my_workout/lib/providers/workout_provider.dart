@@ -1,0 +1,3 @@
+class WorkoutProvider with ChangeNotifier {
+
+}

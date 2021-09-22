@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/workout_provider.dart';
 import '../screens/exercise_management_screen.dart';
 import '../screens/exercise_screen.dart';
 import '../screens/workout_management_screen.dart';
@@ -19,96 +21,99 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          appBarTheme: AppBarTheme(color: darkBackground),
-          canvasColor: Colors.transparent,
-          accentColor: greenButtonsAndCursor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          cardColor: grayCard,
-          scaffoldBackgroundColor: darkBackground,
-          textTheme: TextTheme(
-            headline1: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+    return ChangeNotifierProvider(
+      create: (_) => WorkoutProvider(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            appBarTheme: AppBarTheme(color: darkBackground),
+            canvasColor: Colors.transparent,
+            accentColor: greenButtonsAndCursor,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            cardColor: grayCard,
+            scaffoldBackgroundColor: darkBackground,
+            textTheme: TextTheme(
+              headline1: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              bodyText1: TextStyle(
+                color: Colors.white,
+              ),
+              subtitle1: TextStyle(
+                color: Colors.white,
+              ),
+              subtitle2: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: lightGrayText,
+              ),
             ),
-            bodyText1: TextStyle(
-              color: Colors.white,
+            outlinedButtonTheme: OutlinedButtonThemeData(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonsAndCursor),
+                overlayColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonHover),
+                side: MaterialStateProperty.resolveWith<BorderSide>(
+                    (_) => BorderSide(
+                          color: greenButtonsAndCursor,
+                          width: 2,
+                        )),
+              ),
             ),
-            subtitle1: TextStyle(
-              color: Colors.white,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonsAndCursor),
+                overlayColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonHover),
+                side: MaterialStateProperty.resolveWith<BorderSide>(
+                    (_) => BorderSide(
+                          color: greenButtonsAndCursor,
+                          width: 2,
+                        )),
+              ),
             ),
-            subtitle2: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: lightGrayText,
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonsAndCursor),
+                overlayColor: MaterialStateProperty.resolveWith(
+                    (states) => greenButtonHover),
+              ),
             ),
-          ),
-          outlinedButtonTheme: OutlinedButtonThemeData(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonsAndCursor),
-              overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonHover),
-              side: MaterialStateProperty.resolveWith<BorderSide>(
-                  (_) => BorderSide(
-                        color: greenButtonsAndCursor,
-                        width: 2,
-                      )),
+            buttonTheme: ButtonThemeData(
+              buttonColor: greenButtonsAndCursor,
+              textTheme: ButtonTextTheme.primary,
+              colorScheme: Theme.of(context)
+                  .colorScheme
+                  .copyWith(primary: greenButtonsAndCursor),
+              focusColor: greenButtonHover,
             ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonsAndCursor),
-              overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonHover),
-              side: MaterialStateProperty.resolveWith<BorderSide>(
-                  (_) => BorderSide(
-                        color: greenButtonsAndCursor,
-                        width: 2,
-                      )),
+            inputDecorationTheme: InputDecorationTheme(
+              fillColor: grayInputs,
+              filled: true,
+              border: InputBorder.none,
+              labelStyle: TextStyle(
+                color: lightGrayText,
+              ),
             ),
-          ),
-          textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonsAndCursor),
-              overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => greenButtonHover),
-            ),
-          ),
-          buttonTheme: ButtonThemeData(
-            buttonColor: greenButtonsAndCursor,
-            textTheme: ButtonTextTheme.primary,
-            colorScheme: Theme.of(context)
-                .colorScheme
-                .copyWith(primary: greenButtonsAndCursor),
-            focusColor: greenButtonHover,
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            fillColor: grayInputs,
-            filled: true,
-            border: InputBorder.none,
-            labelStyle: TextStyle(
-              color: lightGrayText,
-            ),
-          ),
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: greenButtonsAndCursor,
-            selectionHandleColor: greenButtonsAndCursor,
-          )),
-      //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
-      //home: HomeScreen(), //Mapped above, on routes...
-      routes: {
-        HomeScreen.route: (_) => HomeScreen(),
-        WorkoutScreen.route: (_) => WorkoutScreen(),
-        WorkoutManagementScreen.route: (_) => WorkoutManagementScreen(),
-        ExerciseScreen.route: (_) => ExerciseScreen(),
-        ExerciseManagementScreen.route: (_) => ExerciseManagementScreen(),
-      },
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: greenButtonsAndCursor,
+              selectionHandleColor: greenButtonsAndCursor,
+            )),
+        //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
+        //home: HomeScreen(), //Mapped above, on routes...
+        routes: {
+          HomeScreen.route: (_) => HomeScreen(),
+          WorkoutScreen.route: (_) => WorkoutScreen(),
+          WorkoutManagementScreen.route: (_) => WorkoutManagementScreen(),
+          ExerciseScreen.route: (_) => ExerciseScreen(),
+          ExerciseManagementScreen.route: (_) => ExerciseManagementScreen(),
+        },
+      ),
     );
   }
 }
