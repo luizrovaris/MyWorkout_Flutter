@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/workout_provider.dart';
+import '../models/workout.dart';
 import '../utils/utils.dart';
 
 class WorkoutManagementScreen extends StatefulWidget {
@@ -8,6 +11,8 @@ class WorkoutManagementScreen extends StatefulWidget {
 }
 
 class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
+  Workout _workout = Workout();
+
   final _imageFocus = FocusNode();
   final _dropDownFocus = FocusNode();
   final _form = GlobalKey<FormState>();
@@ -28,7 +33,9 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
 
     bool valid = _form.currentState!.validate();
     if (valid && _dropDownValid) {
-      print('Form is valid');
+      _form.currentState?.save();
+      _workout.weekDay = _dropDownValue;      
+      Provider.of<WorkoutProvider>(context).add(_workout);
     } else {
       print('Invalid form.');
     }
@@ -59,6 +66,8 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
               child: ListView(
                 children: [
                   TextFormField(
+                      initialValue: _workout.name,
+                      onSaved: (value) => _workout.name = value!,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) =>
                           FocusScope.of(context).requestFocus(_imageFocus),
@@ -70,6 +79,8 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                         return null;
                       }),
                   TextFormField(
+                    initialValue: _workout.image,
+                    onSaved: (value) => _workout.image = value!,
                     focusNode: _imageFocus,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) =>
