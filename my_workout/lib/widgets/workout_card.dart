@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import '../screens/exercise_screen.dart';
-import '../widgets/workout_screen_custom_clipper.dart';
+import '/widgets/workout_screen_custom_clipper.dart';
 
 class WorkoutCard extends StatelessWidget {
+
+  final String imageUrl;
+  final String name;
+  final int weedDay;
+
+  WorkoutCard(this.imageUrl, this.name, this.weedDay);
  
   @override
   Widget build(BuildContext context) {
@@ -17,8 +23,7 @@ class WorkoutCard extends StatelessWidget {
             child: ClipPath(
               clipper: WorkoutScreenCustomClipper(),
               child: Image(
-                image: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgYKHf6Ew5627UAWEpnlAAFDP1p2Z4_iasyg&usqp=CAU'),
+                image: NetworkImage(this.imageUrl),
               ),
             ),
           ),
@@ -28,11 +33,11 @@ class WorkoutCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Running',
+                  this.name,
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Text(
-                  'Sunday',
+                  this.weedDay.toString(),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(
