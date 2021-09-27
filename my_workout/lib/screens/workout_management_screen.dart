@@ -20,7 +20,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
   bool _dropDownValid = true;
   int _dropDownValue = 0;
 
-  void _save() {
+  void _save() async {
     if (_dropDownValue > 0) {
       setState(() {
         _dropDownValid = true;
@@ -35,7 +35,8 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
     if (valid && _dropDownValid) {
       _form.currentState?.save();
       _workout.weekDay = _dropDownValue;      
-      Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      Navigator.of(context).pop();
     } else {
       print('Invalid form.');
     }

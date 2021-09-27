@@ -42,23 +42,21 @@ class WorkoutScreen extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 115),
-            child: FutureBuilder<List<Workout>>(
-              future: Provider.of<WorkoutProvider>(context).get(),
-              builder: (_, snapshot) {
-                return snapshot.connectionState == ConnectionState.done
-                    ? ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) {
-                          return WorkoutCard(
-                              snapshot.data![index].image,
-                              snapshot.data![index].name,
-                              snapshot.data![index].weekDay);
-                        })
-                    : Center(child: CircularProgressIndicator());
-              },
-            ),
+          FutureBuilder<List<Workout>>(
+            future: Provider.of<WorkoutProvider>(context).get(),
+            builder: (_, snapshot) {
+              return snapshot.connectionState == ConnectionState.done
+                  ? ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) {
+                        print('$index - ${snapshot.data!.length}');
+                        return WorkoutCard(
+                            snapshot.data![index].image,
+                            snapshot.data![index].name,
+                            snapshot.data![index].weekDay);
+                      })
+                  : Center(child: CircularProgressIndicator());
+            },
           ),
           //ONE OPTION: USE CONSUMER TO UPDATE PARTE OF THE CODE WITH PROVIDER. THE OTHER OPTION IS FutureBuilder.
           // child: Consumer<WorkoutProvider>(builder: (_, provider, child) {

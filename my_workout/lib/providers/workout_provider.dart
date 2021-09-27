@@ -4,11 +4,11 @@ import '../models/workout.dart';
 class WorkoutProvider with ChangeNotifier {
   List<Workout> _workouts = [];
 
-  Future<List<Workout>> get(){
-    return Future.delayed(Duration(seconds: 3), () => [..._workouts]);
+  Future<List<Workout>> get() async {
+    return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
   }
 
-  void add(Workout workout){
+  Future<void> add(Workout workout) async {
     _workouts.add(workout);
     notifyListeners();
   }
