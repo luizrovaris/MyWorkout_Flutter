@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/utils.dart';
 import '../screens/exercise_screen.dart';
 import '/widgets/workout_screen_custom_clipper.dart';
 
@@ -37,7 +38,7 @@ class WorkoutCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Text(
-                  this.weedDay.toString(),
+                  Utils.getWeekDayName(this.weedDay),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(

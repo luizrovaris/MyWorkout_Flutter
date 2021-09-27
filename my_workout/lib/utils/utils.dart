@@ -12,6 +12,20 @@ class Utils {
 
     return weekDayMap;
   }
+  
+  static String getWeekDayName(int day) {
+    Map<int, String> weekDayMap = {
+      1: 'Sunday',
+      2: 'Monday',
+      3: 'Tuesday',
+      4: 'Wednesday',
+      5: 'Thursday',
+      6: 'Friday',
+      7: 'Saturday',
+    };
+
+    return weekDayMap[day].toString();
+  }
 
   static List<Map<String, Object>> getWeekDaysList() {
     List<Map<String, Object>> weekDayMap = [
