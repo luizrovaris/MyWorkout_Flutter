@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       _list.add(
         TextButton(
           onPressed: () => print('Button $value'),
-          child: Text(value),
+          child: Text(value.substring(0, 3)),
         ),
       );
     });

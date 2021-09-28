@@ -37,8 +37,6 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
       _workout.weekDay = _dropDownValue;      
       await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
       Navigator.of(context).pop();
-    } else {
-      print('Invalid form.');
     }
   }
 

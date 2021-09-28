@@ -38,7 +38,7 @@ class WorkoutCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Text(
-                  Utils.getWeekDayName(this.weedDay),
+                  Utils.getWeekDaysNames()[this.weedDay].toString(),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(
