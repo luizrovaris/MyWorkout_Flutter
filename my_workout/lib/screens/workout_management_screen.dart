@@ -35,16 +35,32 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
     bool valid = _form.currentState!.validate();
     if (valid && _dropDownValid) {
       _form.currentState?.save();
-      _workout.weekDay = _dropDownValue;      
-      await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      _workout.weekDay = _dropDownValue;
+
+      if (_workout.id != ''){
+        await Provider.of<WorkoutProvider>(context, listen: false).update(_workout);
+      }
+      else{
+        await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      }
+
       Navigator.of(context).pop();
     }
   }
 
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     super.didChangeDependencies();
-    if (isInit){
+    if (isInit) {
+      final Map<String, Object> arguments =
+          ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+
+      if (arguments['id'] != null) {
+        _workout = Provider.of<WorkoutProvider>(context, listen: false)
+            .getById(arguments['id'].toString());
+        _dropDownValue = _workout.weekDay;
+      }
+
       isInit = false;
     }
   }

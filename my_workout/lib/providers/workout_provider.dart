@@ -10,8 +10,12 @@ class WorkoutProvider with ChangeNotifier {
     return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
   }
 
+  Workout getById(String id) {
+    return _workouts.firstWhere((element) => element.id == id);
+  }
+
   Future<void> add(Workout workout) async {
-    workout.id = Random().toString();
+    workout.id = Random().nextInt(100000).toString();
     _workouts.add(workout);
     notifyListeners();
   }
