@@ -51,6 +51,7 @@ class WorkoutScreen extends StatelessWidget {
                       itemBuilder: (_, index) {
                         print('$index - ${snapshot.data!.length}');
                         return WorkoutCard(
+                            snapshot.data![index].id,
                             snapshot.data![index].image,
                             snapshot.data![index].name,
                             snapshot.data![index].weekDay);
