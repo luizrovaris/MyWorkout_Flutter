@@ -16,6 +16,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
   final _imageFocus = FocusNode();
   final _dropDownFocus = FocusNode();
   final _form = GlobalKey<FormState>();
+  bool isInit = true;
 
   bool _dropDownValid = true;
   int _dropDownValue = 0;
@@ -37,6 +38,14 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
       _workout.weekDay = _dropDownValue;      
       await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
       Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    if (isInit){
+      isInit = false;
     }
   }
 
