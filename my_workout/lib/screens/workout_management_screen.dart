@@ -37,15 +37,43 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
       _form.currentState?.save();
       _workout.weekDay = _dropDownValue;
 
-      if (_workout.id != ''){
-        await Provider.of<WorkoutProvider>(context, listen: false).update(_workout);
-      }
-      else{
-        await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      if (_workout.id != '') {
+        await Provider.of<WorkoutProvider>(context, listen: false)
+            .update(_workout);
+      } else {
+        await Provider.of<WorkoutProvider>(context, listen: false)
+            .add(_workout);
       }
 
       Navigator.of(context).pop();
     }
+  }
+
+  void _delete() async {
+    Navigator.of(context).pop();
+    await Provider.of<WorkoutProvider>(context, listen: false).delete(_workout.id);    
+    Navigator.of(context).pop();
+  }
+
+  void _showConfirmationModal() {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text('Are you sure that you want to delete this workout?'),
+            content: Text('This action won\'t be undone.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: _delete,
+                child: Text('I\'m sure'),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -73,6 +101,14 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(arguments["title"].toString()),
+        actions: _workout.id != ''
+            ? [
+                IconButton(
+                  onPressed: _showConfirmationModal,
+                  icon: Icon(Icons.delete),
+                ),
+              ]
+            : [],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(

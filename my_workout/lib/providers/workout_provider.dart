@@ -32,4 +32,9 @@ class WorkoutProvider with ChangeNotifier {
     }).toList();
     notifyListeners();
   }
+
+  Future<void> delete(String id) async {
+    _workouts.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }
