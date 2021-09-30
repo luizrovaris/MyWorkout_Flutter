@@ -51,8 +51,9 @@ class WorkoutCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: OutlinedButton(
-                        onPressed: () => Navigator.of(context)
-                            .pushNamed(ExerciseScreen.route),
+                        onPressed: () => Navigator.of(context).pushNamed(
+                            ExerciseScreen.route,
+                            arguments: {'workoutId': this.id}),
                         child: Text('Exercises'),
                       ),
                     ),

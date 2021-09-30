@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/exercise_provider.dart';
+import '../widgets/exercise_card.dart';
 import '../screens/exercise_management_screen.dart';
 
 class ExerciseScreen extends StatelessWidget {
   static const route = '/exercise';
   @override
   Widget build(BuildContext context) {
+    final Map<String, Object> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My Exercises'),
@@ -26,35 +32,12 @@ class ExerciseScreen extends StatelessWidget {
               fit: BoxFit.cover,
             )),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 115),
-            child: Card(
-              child: ListTile(
-                title: Text(
-                  'Running 60 min',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Text(
-                  'Keep running speed for 60 minutes.',
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.subtitle2?.color,
-                  ),
-                ),
-                leading: Image.network(
-                  'https://img.icons8.com/bubbles/2x/timer.png',
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
-                trailing: IconButton(
-                  onPressed: () => print('Remove pressed'),
-                  icon: Icon(Icons.delete),
-                ),
-              ),
-            ),
-          ),
+          FutureBuilder(
+              future: Provider.of<ExerciseProvider>(context)
+                  .get(arguments['workoutId'].toString()),
+              builder: (_, snapshot) {
+                return ExerciseCard('name', 'description', 'imageUrl');
+              }),
         ],
       ),
     );
