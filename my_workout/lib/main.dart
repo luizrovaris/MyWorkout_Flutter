@@ -26,84 +26,92 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-            appBarTheme: AppBarTheme(color: darkBackground),
-            canvasColor: Colors.transparent,
-            accentColor: greenButtonsAndCursor,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            cardColor: grayCard,
-            scaffoldBackgroundColor: darkBackground,
-            textTheme: TextTheme(
-              headline1: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              bodyText1: TextStyle(
-                color: Colors.white,
-              ),
-              subtitle1: TextStyle(
-                color: Colors.white,
-              ),
-              subtitle2: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: lightGrayText,
-              ),
+          appBarTheme: AppBarTheme(color: darkBackground),
+          canvasColor: Colors.transparent,
+          accentColor: greenButtonsAndCursor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          cardColor: grayCard,
+          scaffoldBackgroundColor: darkBackground,
+          textTheme: TextTheme(
+            headline1: TextStyle(
+              fontSize: 40,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            outlinedButtonTheme: OutlinedButtonThemeData(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonsAndCursor),
-                overlayColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonHover),
-                side: MaterialStateProperty.resolveWith<BorderSide>(
-                    (_) => BorderSide(
-                          color: greenButtonsAndCursor,
-                          width: 2,
-                        )),
-              ),
+            bodyText1: TextStyle(
+              color: Colors.white,
             ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonsAndCursor),
-                overlayColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonHover),
-                side: MaterialStateProperty.resolveWith<BorderSide>(
-                    (_) => BorderSide(
-                          color: greenButtonsAndCursor,
-                          width: 2,
-                        )),
-              ),
+            subtitle1: TextStyle(
+              color: Colors.white,
             ),
-            textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonsAndCursor),
-                overlayColor: MaterialStateProperty.resolveWith(
-                    (states) => greenButtonHover),
-              ),
+            subtitle2: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: lightGrayText,
             ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: greenButtonsAndCursor,
-              textTheme: ButtonTextTheme.primary,
-              colorScheme: Theme.of(context)
-                  .colorScheme
-                  .copyWith(primary: greenButtonsAndCursor),
-              focusColor: greenButtonHover,
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonsAndCursor),
+              overlayColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonHover),
+              side: MaterialStateProperty.resolveWith<BorderSide>(
+                  (_) => BorderSide(
+                        color: greenButtonsAndCursor,
+                        width: 2,
+                      )),
             ),
-            inputDecorationTheme: InputDecorationTheme(
-              fillColor: grayInputs,
-              filled: true,
-              border: InputBorder.none,
-              labelStyle: TextStyle(
-                color: lightGrayText,
-              ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonsAndCursor),
+              overlayColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonHover),
+              side: MaterialStateProperty.resolveWith<BorderSide>(
+                  (_) => BorderSide(
+                        color: greenButtonsAndCursor,
+                        width: 2,
+                      )),
             ),
-            textSelectionTheme: TextSelectionThemeData(
-              cursorColor: greenButtonsAndCursor,
-              selectionHandleColor: greenButtonsAndCursor,
-            )),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonsAndCursor),
+              overlayColor: MaterialStateProperty.resolveWith(
+                  (states) => greenButtonHover),
+            ),
+          ),
+          buttonTheme: ButtonThemeData(
+            buttonColor: greenButtonsAndCursor,
+            textTheme: ButtonTextTheme.primary,
+            colorScheme: Theme.of(context)
+                .colorScheme
+                .copyWith(primary: greenButtonsAndCursor),
+            focusColor: greenButtonHover,
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            fillColor: grayInputs,
+            filled: true,
+            border: InputBorder.none,
+            labelStyle: TextStyle(
+              color: lightGrayText,
+            ),
+          ),
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: greenButtonsAndCursor,
+            selectionHandleColor: greenButtonsAndCursor,
+          ),
+          dialogBackgroundColor: Color.fromRGBO(29, 34, 37, 1),
+          dialogTheme: DialogTheme(
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: Theme.of(context).textTheme.headline6!.fontSize,
+            ),
+          ),
+        ),
         //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
         //home: HomeScreen(), //Mapped above, on routes...
         routes: {

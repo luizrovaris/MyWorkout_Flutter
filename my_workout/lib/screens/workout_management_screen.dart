@@ -69,7 +69,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
               ),
               TextButton(
                 onPressed: _delete,
-                child: Text('I\'m sure'),
+                child: Text('Delete'),
               ),
             ],
           );
