@@ -6,6 +6,7 @@ import '../screens/exercise_screen.dart';
 import '../screens/workout_management_screen.dart';
 import '../screens/workout_screen.dart';
 import '../screens/home_screen.dart';
+import '../providers/exercise_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,8 +22,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => WorkoutProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => WorkoutProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ExerciseProvider(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
