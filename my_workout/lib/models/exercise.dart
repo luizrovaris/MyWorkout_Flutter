@@ -5,5 +5,5 @@ class Exercise{
   late String imageUrl;
   late String workOutId;
 
-  Exercise(this.id, this.name, this.description, this.imageUrl, this.workOutId);
+  Exercise([this.id = '', this.name = '', this.description = '', this.imageUrl = '', this.workOutId = '']);
 }

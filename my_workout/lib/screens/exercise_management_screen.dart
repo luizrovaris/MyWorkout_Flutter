@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/exercise_provider.dart';
+import '../models/exercise.dart';
 
 class ExerciseManagementScreen extends StatefulWidget {
   static const route = '/exercise-management';
@@ -8,17 +11,32 @@ class ExerciseManagementScreen extends StatefulWidget {
 }
 
 class ExerciseManagementScreenState extends State<ExerciseManagementScreen> {
+  Exercise _exercise = Exercise();
   final _imageFocus = FocusNode();
   final _descriptionFocus = FocusNode();
   final _form = GlobalKey<FormState>();
 
-  void _save() {
+  bool isInit = true;
+
+  void _save() async {
     bool isValid = _form.currentState!.validate();
 
     if (isValid) {
-      print('Form is valid');
-    } else {
-      print('Invalid form.');
+      _form.currentState!.save();
+      await Provider.of<ExerciseProvider>(context, listen: false).add(_exercise);
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (isInit) {
+      final Map<String, Object> arguments =
+          ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+
+      _exercise.workOutId = arguments['workoutId'].toString();
+      isInit = false;
     }
   }
 
@@ -46,6 +64,7 @@ class ExerciseManagementScreenState extends State<ExerciseManagementScreen> {
               child: ListView(
                 children: [
                   TextFormField(
+                    onSaved: (value) => _exercise.name = value!,
                     decoration: InputDecoration(
                       labelText: 'Name',
                     ),
@@ -60,6 +79,7 @@ class ExerciseManagementScreenState extends State<ExerciseManagementScreen> {
                         FocusScope.of(context).requestFocus(_imageFocus),
                   ),
                   TextFormField(
+                    onSaved: (value) => _exercise.imageUrl = value!,
                     focusNode: _imageFocus,
                     decoration: InputDecoration(labelText: 'Image'),
                     textInputAction: TextInputAction.next,
@@ -75,6 +95,7 @@ class ExerciseManagementScreenState extends State<ExerciseManagementScreen> {
                         FocusScope.of(context).requestFocus(_descriptionFocus),
                   ),
                   TextFormField(
+                    onSaved: (value) => _exercise.description = value!,
                     decoration: InputDecoration(labelText: 'Description'),
                     focusNode: _descriptionFocus,
                     maxLength: 200,

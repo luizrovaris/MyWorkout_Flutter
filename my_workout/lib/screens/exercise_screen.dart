@@ -18,7 +18,7 @@ class ExerciseScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () =>
-                Navigator.of(context).pushNamed(ExerciseManagementScreen.route),
+                Navigator.of(context).pushNamed(ExerciseManagementScreen.route, arguments: arguments),
             icon: Icon(Icons.add),
           ),
         ],
