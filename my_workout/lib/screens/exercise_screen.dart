@@ -17,8 +17,10 @@ class ExerciseScreen extends StatelessWidget {
         title: Text('My Exercises'),
         actions: [
           IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(ExerciseManagementScreen.route, arguments: arguments),
+            onPressed: () => Navigator.of(context).pushNamed(
+              ExerciseManagementScreen.route,
+              arguments: arguments,
+            ),
             icon: Icon(Icons.add),
           ),
         ],
@@ -42,6 +44,7 @@ class ExerciseScreen extends StatelessWidget {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (_, index) {
                           return ExerciseCard(
+                              snapshot.data![index].id,
                               snapshot.data![index].name,
                               snapshot.data![index].description,
                               snapshot.data![index].imageUrl);

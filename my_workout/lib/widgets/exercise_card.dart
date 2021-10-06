@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/exercise_provider.dart';
 
 class ExerciseCard extends StatelessWidget {
+  final String id;
   final String name;
   final String description;
   final String imageUrl;
 
-  ExerciseCard(this.name, this.description, this.imageUrl);
+  ExerciseCard(this.id, this.name, this.description, this.imageUrl);
+
+  void _delete(BuildContext context) async {
+    await Provider.of<ExerciseProvider>(context, listen: false).delete(id);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,8 @@ class ExerciseCard extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         trailing: IconButton(
-          onPressed: () => print('Remove pressed'),
+          onPressed: () => _delete(context),
+          color: Colors.red,
           icon: Icon(Icons.delete),
         ),
       ),
