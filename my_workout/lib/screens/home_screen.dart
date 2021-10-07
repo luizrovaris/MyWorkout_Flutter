@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_workout/widgets/exercise_list.dart';
 import 'package:provider/provider.dart';
 import '../providers/workout_provider.dart';
 import '../models/workout.dart';
@@ -54,13 +55,25 @@ class HomeScreenState extends State<HomeScreen> {
     return _list;
   }
 
-  Widget _getTodayWorkout(List<Workout> workouts){
+  Widget _getTodayWorkout(List<Workout> workouts) {
     final index = workouts.indexWhere((element) => element.weekDay == _weedDay);
 
-    if (index != -1 ){
+    if (index != -1) {
       return TodayWorkout(workouts[index].name, workouts[index].image);
     } else {
       return Text('You don\'t have workouts today.');
+    }
+  }
+
+  _getExercisesList(List<Workout> workouts) {
+    final index = workouts.indexWhere((element) => element.weekDay == _weedDay);
+
+    if (index != -1) {
+      return Expanded(
+        child: ExerciseList(workouts[index].id),
+      );
+    } else {
+      return Text('-');
     }
   }
 
@@ -97,6 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           _getTodayWorkout(snapshot.data!),
+                          _getExercisesList(snapshot.data!),
                         ],
                       ),
                     )

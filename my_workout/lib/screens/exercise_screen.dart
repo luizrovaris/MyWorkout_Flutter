@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_workout/models/exercise.dart';
-import 'package:provider/provider.dart';
-import '../providers/exercise_provider.dart';
-import '../widgets/exercise_card.dart';
+import '../widgets/exercise_list.dart';
 import '../screens/exercise_management_screen.dart';
 
 class ExerciseScreen extends StatelessWidget {
@@ -35,24 +32,7 @@ class ExerciseScreen extends StatelessWidget {
               fit: BoxFit.cover,
             )),
           ),
-          FutureBuilder<List<Exercise>>(
-              future: Provider.of<ExerciseProvider>(context)
-                  .get(arguments['workoutId'].toString()),
-              builder: (_, snapshot) {
-                return snapshot.connectionState == ConnectionState.done
-                    ? ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) {
-                          return ExerciseCard(
-                              snapshot.data![index].id,
-                              snapshot.data![index].name,
-                              snapshot.data![index].description,
-                              snapshot.data![index].imageUrl);
-                        })
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      );
-              }),
+         ExerciseList(arguments['workoutId'].toString()),
         ],
       ),
     );
