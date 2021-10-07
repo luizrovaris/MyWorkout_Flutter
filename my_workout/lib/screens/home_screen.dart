@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/workout_provider.dart';
+import '../models/workout.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/today_workout.dart';
 import '../utils/utils.dart';
@@ -51,6 +54,16 @@ class HomeScreenState extends State<HomeScreen> {
     return _list;
   }
 
+  Widget _getTodayWorkout(List<Workout> workouts){
+    final index = workouts.indexWhere((element) => element.weekDay == _weedDay);
+
+    if (index != -1 ){
+      return TodayWorkout(workouts[index].name, workouts[index].image);
+    } else {
+      return Text('You don\'t have workouts today.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,19 +82,28 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 110),
-            child: Column(
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ButtonBar(
-                    children: _getButtonBar(),
-                  ),
-                ),
-                TodayWorkout(),
-              ],
-            ),
+          FutureBuilder<List<Workout>>(
+            future: Provider.of<WorkoutProvider>(context).get(),
+            builder: (_, snapshot) {
+              return snapshot.connectionState == ConnectionState.done
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 110),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: ButtonBar(
+                              children: _getButtonBar(),
+                            ),
+                          ),
+                          _getTodayWorkout(snapshot.data!),
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    );
+            },
           ),
         ],
       ),

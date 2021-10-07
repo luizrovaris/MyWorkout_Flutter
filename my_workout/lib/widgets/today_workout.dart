@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TodayWorkout extends StatelessWidget {
+  final String name;
+  final String image;
+
+  TodayWorkout(this.name, this.image);
+
   @override
   Widget build(BuildContext context) {
     final _query = MediaQuery.of(context);
@@ -37,7 +42,7 @@ class TodayWorkout extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            'Abs Advanced',
+                            name,
                             style: Theme.of(context).textTheme.subtitle2,
                           ),
                         ),
@@ -55,8 +60,7 @@ class TodayWorkout extends StatelessWidget {
                 bottomRight: Radius.circular(20),
               ),
               child: Image(
-                image: NetworkImage(
-                    'https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg'),
+                image: NetworkImage(image),//'https://cdn.pixabay.com/photo/2016/11/21/17/33/body-1846668_1280.jpg
                 width: _query.size.width * 0.35,
                 height: 200,
                 fit: BoxFit.cover,
