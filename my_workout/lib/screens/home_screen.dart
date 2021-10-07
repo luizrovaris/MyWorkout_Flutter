@@ -3,8 +3,15 @@ import '../widgets/app_drawer.dart';
 import '../widgets/today_workout.dart';
 import '../utils/utils.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const route = '/';
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> {
+  int _weedDay = DateTime.now().weekday;
 
   List<TextButton> _getButtonBar() {
     List<TextButton> _list = [];
@@ -12,8 +19,31 @@ class HomeScreen extends StatelessWidget {
     Utils.getWeekDaysNames().forEach((key, value) {
       _list.add(
         TextButton(
-          onPressed: () => print('Button $value'),
-          child: Text(value.substring(0, 3)),
+          onPressed: () {
+            setState(() {
+              _weedDay = key;
+            });
+          },
+          child: Text(
+            value.substring(0, 3),
+            style: TextStyle(
+                color: _weedDay == key
+                    ? Colors.white
+                    : Theme.of(context).accentColor),
+          ),
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                    style: BorderStyle.solid,
+                    color: Theme.of(context).accentColor),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all<Color?>(_weedDay == key
+                ? Theme.of(context).accentColor
+                : Colors.transparent),
+          ),
         ),
       );
     });
