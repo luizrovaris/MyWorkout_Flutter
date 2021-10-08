@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/exercise.dart';
 
@@ -17,6 +18,7 @@ class ExerciseProvider with ChangeNotifier{
   }
 
   Future<void> add(Exercise exercise) async {
+    exercise.id = Random().nextInt(100000).toString();
     _exercises.add(exercise);
     notifyListeners();
   }

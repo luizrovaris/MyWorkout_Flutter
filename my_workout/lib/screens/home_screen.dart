@@ -61,11 +61,16 @@ class HomeScreenState extends State<HomeScreen> {
     if (index != -1) {
       return TodayWorkout(workouts[index].name, workouts[index].image);
     } else {
-      return Text('You don\'t have workouts today.');
+      return Text(
+        'You don\'t have workouts today.',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      );
     }
   }
 
-  _getExercisesList(List<Workout> workouts) {
+  Widget _getExercisesList(List<Workout> workouts) {
     final index = workouts.indexWhere((element) => element.weekDay == _weedDay);
 
     if (index != -1) {
@@ -73,7 +78,7 @@ class HomeScreenState extends State<HomeScreen> {
         child: ExerciseList(workouts[index].id),
       );
     } else {
-      return Text('-');
+      return Text('');
     }
   }
 
