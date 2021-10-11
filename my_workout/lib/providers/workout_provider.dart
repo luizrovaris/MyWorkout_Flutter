@@ -1,5 +1,5 @@
-import 'dart:math';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../models/workout.dart';
 
@@ -15,15 +15,27 @@ class WorkoutProvider with ChangeNotifier {
   }
 
   Future<void> add(Workout workout) async {
-    workout.id = Random().nextInt(100000).toString();
-    _workouts.add(workout);
+    print('VAI SALVAR');
+    final response = await http.post(
+      Uri.parse('https://workoutapp-dfe56-default-rtdb.europe-west1.firebasedatabase.app/workout.json'),
+      body: json.encode(
+        {
+          'name': workout.name,
+          'imageUrl': workout.image,
+          'weekDay': workout.weekDay
+        },
+      ),
+    );
+
+    print(response.statusCode);
+    print(response.body);
+    
     notifyListeners();
   }
 
   Future<void> update(Workout workout) async {
     _workouts = _workouts.map((e) {
-      if (e.id == workout.id)
-      {
+      if (e.id == workout.id) {
         e.name = workout.name;
         e.image = workout.image;
         e.weekDay = workout.weekDay;
