@@ -11,12 +11,15 @@ class WorkoutProvider with ChangeNotifier {
   Future<List<Workout>> get() async {
     //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
     _workouts = [];
-    final response = await http.get(Uri.parse('$baseUrl.json'));
-    final decoded = json.decode(response.body) as Map<String, dynamic>;
-    decoded.forEach((key, value) {
-      _workouts
-          .add(Workout(key, value['name'], value['image'], value['weekDay']));
-    });
+    final response = await http.get(Uri.parse('$baseUrl.json'));    
+
+    if (response.body != "null") {
+      final decoded = json.decode(response.body) as Map<String, dynamic>;
+      decoded.forEach((key, value) {
+        _workouts
+            .add(Workout(key, value['name'], value['image'], value['weekDay']));
+      });
+    }
 
     return _workouts;
   }
@@ -44,7 +47,7 @@ class WorkoutProvider with ChangeNotifier {
   }
 
   Future<void> update(Workout workout) async {
-    var response = await http.put(
+    final response = await http.put(
       Uri.parse('$baseUrl/${workout.id}.json'),
       body: json.encode({
         'name': workout.name,
@@ -62,12 +65,14 @@ class WorkoutProvider with ChangeNotifier {
     //   }
     //   return e;
     // }).toList();
-    
+
     notifyListeners();
   }
 
   Future<void> delete(String id) async {
-    _workouts.removeWhere((element) => element.id == id);
+    //_workouts.removeWhere((element) => element.id == id);
+    final response = await http.delete(Uri.parse('$baseUrl/$id.json'));
+    print(response.statusCode);
     notifyListeners();
   }
 }
