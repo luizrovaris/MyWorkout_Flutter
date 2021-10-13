@@ -101,22 +101,26 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           ),
           FutureBuilder<List<Workout>>(
-            future: Provider.of<WorkoutProvider>(context).get(),
+            future: Provider.of<WorkoutProvider>(context, listen: false).get(),
             builder: (_, snapshot) {
               return snapshot.connectionState == ConnectionState.done
                   ? Padding(
                       padding: const EdgeInsets.only(top: 110),
-                      child: Column(
-                        children: [
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: ButtonBar(
-                              children: _getButtonBar(),
-                            ),
+                      child: Consumer<WorkoutProvider>(
+                        builder: (_, provider, widget) {
+                          return Column(
+                            children: [
+                              _getTodayWorkout(provider.workouts),
+                              _getExercisesList(provider.workouts),
+                            ],
+                          );
+                        },
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: ButtonBar(
+                            children: _getButtonBar(),
                           ),
-                          _getTodayWorkout(snapshot.data!),
-                          _getExercisesList(snapshot.data!),
-                        ],
+                        ),
                       ),
                     )
                   : Center(
