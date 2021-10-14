@@ -40,9 +40,7 @@ class WorkoutProvider with ChangeNotifier {
       ),
     );
 
-    print(response.statusCode);
-    print(response.body);
-
+    workouts.add(workout);
     notifyListeners();
   }
 
@@ -66,13 +64,17 @@ class WorkoutProvider with ChangeNotifier {
     //   return e;
     // }).toList();
 
+    final index = workouts.indexWhere((element) => element.id == workout.id);
+    workouts[index] = workout;
+
     notifyListeners();
   }
 
   Future<void> delete(String id) async {
-    //_workouts.removeWhere((element) => element.id == id);
     final response = await http.delete(Uri.parse('$baseUrl/$id.json'));
     print(response.statusCode);
+
+    workouts.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }
