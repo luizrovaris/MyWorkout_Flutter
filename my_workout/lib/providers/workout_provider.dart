@@ -10,6 +10,7 @@ class WorkoutProvider with ChangeNotifier {
 
   Future<List<Workout>> get() async {
     //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
+    print('GET ALL FROM DB');
     workouts = [];
     final response = await http.get(Uri.parse('$baseUrl.json'));    
 
@@ -40,6 +41,8 @@ class WorkoutProvider with ChangeNotifier {
       ),
     );
 
+    workout.id = json.decode(response.body)['name'];
+    
     workouts.add(workout);
     notifyListeners();
   }

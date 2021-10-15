@@ -42,23 +42,38 @@ class WorkoutScreen extends StatelessWidget {
               ),
             ),
           ),
-          FutureBuilder<List<Workout>>(
-            future: Provider.of<WorkoutProvider>(context).get(),
-            builder: (_, snapshot) {
-              return snapshot.connectionState == ConnectionState.done
-                  ? ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (_, index) {
-                        print('$index - ${snapshot.data!.length}');
-                        return WorkoutCard(
-                            snapshot.data![index].id,
-                            snapshot.data![index].image,
-                            snapshot.data![index].name,
-                            snapshot.data![index].weekDay);
-                      })
-                  : Center(child: CircularProgressIndicator());
+          Consumer<WorkoutProvider>(
+            builder: (_, provider, widget) {
+              return ListView.builder(
+                  itemCount: provider.workouts.length,
+                  itemBuilder: (_, index) {
+                    print('$index - ${provider.workouts.length}');
+                    return WorkoutCard(
+                        provider.workouts[index].id,
+                        provider.workouts[index].image,
+                        provider.workouts[index].name,
+                        provider.workouts[index].weekDay);
+                  });
             },
           ),
+          //ONE OPTION: USE FUTURE BUILDER TO LISTEN PROVIDER
+          // FutureBuilder<List<Workout>>(
+          //   future: Provider.of<WorkoutProvider>(context).get(),
+          //   builder: (_, snapshot) {
+          //     return snapshot.connectionState == ConnectionState.done
+          //         ? ListView.builder(
+          //             itemCount: snapshot.data!.length,
+          //             itemBuilder: (_, index) {
+          //               print('$index - ${snapshot.data!.length}');
+          //               return WorkoutCard(
+          //                   snapshot.data![index].id,
+          //                   snapshot.data![index].image,
+          //                   snapshot.data![index].name,
+          //                   snapshot.data![index].weekDay);
+          //             })
+          //         : Center(child: CircularProgressIndicator());
+          //   },
+          // ),
           //ONE OPTION: USE CONSUMER TO UPDATE PARTE OF THE CODE WITH PROVIDER. THE OTHER OPTION IS FutureBuilder.
           // child: Consumer<WorkoutProvider>(builder: (_, provider, child) {
           //   return WorkoutCard();
