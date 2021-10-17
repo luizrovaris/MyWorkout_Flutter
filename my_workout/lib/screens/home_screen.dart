@@ -110,6 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
                         builder: (_, provider, widget) {
                           return Column(
                             children: [
+                              widget!,
                               _getTodayWorkout(provider.workouts),
                               _getExercisesList(provider.workouts),
                             ],
