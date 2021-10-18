@@ -29,13 +29,23 @@ class ExerciseProvider with ChangeNotifier {
   }
 
   Future<void> add(Exercise exercise) async {
-    exercise.id = Random().nextInt(100000).toString();
-    //_exercises.add(exercise);
+    final response = await http.post(
+      Uri.parse('$baseUrl.json'),
+      body: json.encode(
+        {
+          'name': exercise.name,
+          'description': exercise.description,
+          'imageUrl': exercise.imageUrl,
+          'workOutId': exercise.workOutId
+        },
+      ),
+    );
+
     notifyListeners();
   }
 
   Future<void> delete(String id) async {
-    //_exercises.removeWhere((element) => element.id == id);
+    final response = await http.delete(Uri.parse('$baseUrl/$id.json'));
     notifyListeners();
   }
 }
