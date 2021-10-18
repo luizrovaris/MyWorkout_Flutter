@@ -12,7 +12,7 @@ class WorkoutProvider with ChangeNotifier {
     //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
     print('GET ALL FROM DB');
     workouts = [];
-    final response = await http.get(Uri.parse('$baseUrl.json'));    
+    final response = await http.get(Uri.parse('$baseUrl.json'));
 
     if (response.body != "null") {
       final decoded = json.decode(response.body) as Map<String, dynamic>;
