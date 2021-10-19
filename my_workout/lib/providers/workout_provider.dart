@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../models/workout.dart';
+import '../exceptions/api_exception.dart';
 
 class WorkoutProvider with ChangeNotifier {
   List<Workout> workouts = [];
@@ -9,20 +10,33 @@ class WorkoutProvider with ChangeNotifier {
       'https://workoutapp-dfe56-default-rtdb.europe-west1.firebasedatabase.app/workout';
 
   Future<List<Workout>> get() async {
-    //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
-    print('GET ALL FROM DB');
-    workouts = [];
-    final response = await http.get(Uri.parse('$baseUrl.json'));
+    try {
+      //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
+      print('GET ALL FROM DB');
+      workouts = [];
+      final response = await http.get(Uri.parse('$baseUrl'));
 
-    if (response.body != "null") {
-      final decoded = json.decode(response.body) as Map<String, dynamic>;
-      decoded.forEach((key, value) {
-        workouts
-            .add(Workout(key, value['name'], value['image'], value['weekDay']));
-      });
+      if (![200, 201, 202, 204].contains(response.statusCode)){
+        final message = json.decode(response.body) as Map<String, dynamic>;
+        throw ApiException(response.statusCode, message['error']);
+      }
+
+      if (response.body != "null") {
+        final decoded = json.decode(response.body) as Map<String, dynamic>;
+        decoded.forEach((key, value) {
+          workouts.add(
+              Workout(key, value['name'], value['image'], value['weekDay']));
+        });
+      }
+
+      return workouts;
     }
-
-    return workouts;
+    on ApiException catch(eapi){
+      throw '${eapi.code} - ${eapi.message}';
+    }
+     catch (e) {
+      throw (e as FormatException).message;
+    }
   }
 
   Workout getById(String id) {
@@ -42,7 +56,7 @@ class WorkoutProvider with ChangeNotifier {
     );
 
     workout.id = json.decode(response.body)['name'];
-    
+
     workouts.add(workout);
     notifyListeners();
   }
