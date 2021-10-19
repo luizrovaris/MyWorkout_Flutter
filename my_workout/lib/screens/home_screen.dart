@@ -103,30 +103,54 @@ class HomeScreenState extends State<HomeScreen> {
           FutureBuilder<List<Workout>>(
             future: Provider.of<WorkoutProvider>(context, listen: false).get(),
             builder: (_, snapshot) {
-              return snapshot.connectionState == ConnectionState.done
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 110),
-                      child: Consumer<WorkoutProvider>(
-                        builder: (_, provider, widget) {
-                          return Column(
-                            children: [
-                              widget!,
-                              _getTodayWorkout(provider.workouts),
-                              _getExercisesList(provider.workouts),
-                            ],
-                          );
-                        },
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: ButtonBar(
-                            children: _getButtonBar(),
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.error != null) {
+                  return Center(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:[
+                          Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 80,
+                            ),
+                          Text(
+                            '${snapshot.error}',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
+                        ]),
+                      ),
+                    );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 110),
+                    child: Consumer<WorkoutProvider>(
+                      builder: (_, provider, widget) {
+                        return Column(
+                          children: [
+                            widget!,
+                            _getTodayWorkout(provider.workouts),
+                            _getExercisesList(provider.workouts),
+                          ],
+                        );
+                      },
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ButtonBar(
+                          children: _getButtonBar(),
                         ),
                       ),
-                    )
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ),
+                  );
+                }
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             },
           ),
         ],
