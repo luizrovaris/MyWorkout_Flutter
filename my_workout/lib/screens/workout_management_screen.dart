@@ -22,36 +22,39 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
   int _dropDownValue = 0;
 
   void _save() async {
-    if (_dropDownValue > 0) {
-      setState(() {
-        _dropDownValid = true;
-      });
-    } else {
-      setState(() {
-        _dropDownValid = false;
-      });
-    }
-
-    bool valid = _form.currentState!.validate();
-    if (valid && _dropDownValid) {
-      _form.currentState?.save();
-      _workout.weekDay = _dropDownValue;
-
-      if (_workout.id != '') {
-        await Provider.of<WorkoutProvider>(context, listen: false)
-            .update(_workout);
+    try {
+      if (_dropDownValue > 0) {
+        setState(() {
+          _dropDownValid = true;
+        });
       } else {
-        await Provider.of<WorkoutProvider>(context, listen: false)
-            .add(_workout);
+        setState(() {
+          _dropDownValid = false;
+        });
       }
 
-      Navigator.of(context).pop();
-    }
+      bool valid = _form.currentState!.validate();
+      if (valid && _dropDownValid) {
+        _form.currentState?.save();
+        _workout.weekDay = _dropDownValue;
+
+        if (_workout.id != '') {
+          await Provider.of<WorkoutProvider>(context, listen: false)
+              .update(_workout);
+        } else {
+          await Provider.of<WorkoutProvider>(context, listen: false)
+              .add(_workout);
+        }
+
+        Navigator.of(context).pop();
+      }
+    } catch (e) {}
   }
 
   void _delete() async {
     Navigator.of(context).pop();
-    await Provider.of<WorkoutProvider>(context, listen: false).delete(_workout.id);    
+    await Provider.of<WorkoutProvider>(context, listen: false)
+        .delete(_workout.id);
     Navigator.of(context).pop();
   }
 

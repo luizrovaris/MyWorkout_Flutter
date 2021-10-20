@@ -16,7 +16,7 @@ class WorkoutProvider with ChangeNotifier {
       workouts = [];
       final response = await http.get(Uri.parse('$baseUrl'));
 
-      if (![200, 201, 202, 204].contains(response.statusCode)){
+      if (![200, 201, 202, 204].contains(response.statusCode)) {
         final message = json.decode(response.body) as Map<String, dynamic>;
         throw ApiException(response.statusCode, message['error']);
       }
@@ -30,11 +30,9 @@ class WorkoutProvider with ChangeNotifier {
       }
 
       return workouts;
-    }
-    on ApiException catch(eapi){
+    } on ApiException catch (eapi) {
       throw '${eapi.code} - ${eapi.message}';
-    }
-     catch (e) {
+    } catch (e) {
       throw (e as FormatException).message;
     }
   }
@@ -44,21 +42,27 @@ class WorkoutProvider with ChangeNotifier {
   }
 
   Future<void> add(Workout workout) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl.json'),
-      body: json.encode(
-        {
-          'name': workout.name,
-          'image': workout.image,
-          'weekDay': workout.weekDay
-        },
-      ),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl.json'),
+        body: json.encode(
+          {
+            'name': workout.name,
+            'image': workout.image,
+            'weekDay': workout.weekDay
+          },
+        ),
+      );
 
-    workout.id = json.decode(response.body)['name'];
+      workout.id = json.decode(response.body)['name'];
 
-    workouts.add(workout);
-    notifyListeners();
+      workouts.add(workout);
+      notifyListeners();
+    } on ApiException catch (eapi) {
+      throw '${eapi.code} - ${eapi.message}';
+    } catch (e) {
+      throw (e as FormatException).message;
+    }
   }
 
   Future<void> update(Workout workout) async {
