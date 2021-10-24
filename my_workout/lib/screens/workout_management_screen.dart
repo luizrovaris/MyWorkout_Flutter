@@ -51,9 +51,9 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
         Navigator.of(context).pop();
       }
     } catch (e) {
-      _scaffoldKey.currentState!.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text((e as FormatException).message),
+          content: Text('Error $e'),
         ),
       );
     }
