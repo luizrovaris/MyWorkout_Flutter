@@ -16,7 +16,6 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
   final _imageFocus = FocusNode();
   final _dropDownFocus = FocusNode();
   final _form = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isInit = true;
 
@@ -110,7 +109,6 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
 
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(arguments["title"].toString()),
         actions: _workout.id != ''
