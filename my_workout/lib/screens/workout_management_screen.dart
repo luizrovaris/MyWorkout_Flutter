@@ -22,7 +22,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
   bool _dropDownValid = true;
   int _dropDownValue = 0;
 
-  void _save() async {
+  void _save(dynamic specificContext) async {
     try {
       if (_dropDownValue > 0) {
         setState(() {
@@ -50,7 +50,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
         Navigator.of(context).pop();
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(specificContext).showSnackBar(
         SnackBar(
           content: Text('Error $e'),
         ),
@@ -196,7 +196,7 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                         ),
                         icon: Icon(Icons.calendar_today),
                         isExpanded: true,
-                        iconEnabledColor: Theme.of(context).accentColor,
+                        iconEnabledColor: Theme.of(context).colorScheme.secondary,
                         style: TextStyle(
                           fontSize:
                               Theme.of(context).textTheme.subtitle1?.fontSize,
@@ -217,14 +217,18 @@ class WorkoutManagementScreenState extends State<WorkoutManagementScreen> {
                   ),
                   SizedBox(
                     height: 50,
-                    child: ElevatedButton(
-                      onPressed: _save,
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.headline1?.color,
-                        ),
-                      ),
+                    child: Builder(
+                      builder: (context) {
+                        return ElevatedButton(
+                          onPressed: () => _save(context),
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.headline1?.color,
+                            ),
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ],
