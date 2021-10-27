@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import '../exceptions/api_exception.dart';
 import '../models/exercise.dart';
 
 class ExerciseProvider with ChangeNotifier {
@@ -30,19 +30,30 @@ class ExerciseProvider with ChangeNotifier {
   }
 
   Future<void> add(Exercise exercise) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl.json'),
-      body: json.encode(
-        {
-          'name': exercise.name,
-          'description': exercise.description,
-          'imageUrl': exercise.imageUrl,
-          'workOutId': exercise.workOutId
-        },
-      ),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl.json'),
+        body: json.encode(
+          {
+            'name': exercise.name,
+            'description': exercise.description,
+            'imageUrl': exercise.imageUrl,
+            'workOutId': exercise.workOutId
+          },
+        ),
+      );
 
-    notifyListeners();
+      if (![200, 201, 202, 204].contains(response.statusCode)) {
+        final message = json.decode(response.body) as Map<String, dynamic>;
+        throw ApiException(response.statusCode, message['error']);
+      }
+
+      notifyListeners();
+    } on ApiException catch (eapi) {
+      throw '${eapi.code} - ${eapi.message}';
+    } catch (e) {
+      throw (e as FormatException).message;
+    }
   }
 
   Future<void> delete(String id) async {

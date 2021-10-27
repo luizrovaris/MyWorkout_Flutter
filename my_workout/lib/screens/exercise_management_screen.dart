@@ -19,12 +19,24 @@ class ExerciseManagementScreenState extends State<ExerciseManagementScreen> {
   bool isInit = true;
 
   void _save() async {
-    bool isValid = _form.currentState!.validate();
+    try {
+      bool isValid = _form.currentState!.validate();
 
-    if (isValid) {
-      _form.currentState!.save();
-      await Provider.of<ExerciseProvider>(context, listen: false).add(_exercise);
-      Navigator.of(context).pop();
+      if (isValid) {
+        _form.currentState!.save();
+        await Provider.of<ExerciseProvider>(context, listen: false)
+            .add(_exercise);
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (_) {
+                return AlertDialog(
+                  title: Text('Error saving exercise'),
+                  content: Text('$e'),
+                );
+              });
     }
   }
 
