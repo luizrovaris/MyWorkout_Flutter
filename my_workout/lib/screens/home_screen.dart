@@ -33,7 +33,7 @@ class HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
                 color: _weedDay == key
                     ? Colors.white
-                    : Theme.of(context).accentColor),
+                    : Theme.of(context).colorScheme.secondary),
           ),
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -41,11 +41,11 @@ class HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(50),
                 side: BorderSide(
                     style: BorderStyle.solid,
-                    color: Theme.of(context).accentColor),
+                    color: Theme.of(context).colorScheme.secondary),
               ),
             ),
             backgroundColor: MaterialStateProperty.all<Color?>(_weedDay == key
-                ? Theme.of(context).accentColor
+                ? Theme.of(context).colorScheme.secondary
                 : Colors.transparent),
           ),
         ),
