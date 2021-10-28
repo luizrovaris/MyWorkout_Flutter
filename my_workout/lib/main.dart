@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../screens/login_screen.dart';
 import '../providers/workout_provider.dart';
 import '../screens/exercise_management_screen.dart';
 import '../screens/exercise_screen.dart';
@@ -122,8 +123,9 @@ class MyApp extends StatelessWidget {
         ),
         //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
         //home: HomeScreen(), //Mapped above, on routes...
+        home: LoginScreen(),
         routes: {
-          HomeScreen.route: (_) => HomeScreen(),
+          HomeScreen.route + 'h': (_) => HomeScreen(),
           WorkoutScreen.route: (_) => WorkoutScreen(),
           WorkoutManagementScreen.route: (_) => WorkoutManagementScreen(),
           ExerciseScreen.route: (_) => ExerciseScreen(),
