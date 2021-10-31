@@ -21,69 +21,76 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/bg1.jpg'),
+            fit: BoxFit.cover
           ),
         ),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              Text(
-                'MyWorkout',
-                style: TextStyle(
-                  fontSize: 65,
-                  fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Text(
+                  'MyWorkout',
+                  style: TextStyle(
+                    fontSize: 65,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_passwordFocus),
+                  validator: (value) => EmailValidator.validate(value!)
+                      ? null
+                      : 'Enter a valid email address',
                 ),
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (_) =>
-                    FocusScope.of(context).requestFocus(_passwordFocus),
-                validator: (value) => EmailValidator.validate(value!)
-                    ? null
-                    : 'Enter a valid email address',
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  focusNode: _passwordFocus,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_confirmPasswordFocus),
+                  validator: (value) {
+                    String? response;
+                    if (value!.length < 6) {
+                      response = 'The password is too short.';
+                    }
+                    return response;
+                  },
+                  obscureText: true,
                 ),
-                focusNode: _passwordFocus,
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (_) =>
-                    FocusScope.of(context).requestFocus(_confirmPasswordFocus),
-                validator: (value) {
-                  String? response;
-                  if (value!.length < 6) {
-                    response = 'The password is too short.';
-                  }
-                  return response;
-                },
-                obscureText: true,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Confirm Password',
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                  ),
+                  focusNode: _confirmPasswordFocus,
+                  validator: (value) {
+                    String? response;
+                    if (value!.length < 6) {
+                      response = 'The password is too short.';
+                    }
+                    return response;
+                  },
+                  obscureText: true,
                 ),
-                focusNode: _confirmPasswordFocus,
-                validator: (value) {
-                  String? response;
-                  if (value!.length < 6) {
-                    response = 'The password is too short.';
-                  }
-                  return response;
-                },
-                obscureText: true,
-              ),
-              SizedBox(
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () => print('Save'),
-                  child: Text('Enter'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () => print('Save'),
+                      child: Text('Enter'),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
