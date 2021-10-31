@@ -22,6 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void _save(){
+    bool isValid = _formKey.currentState!.validate();
+
+    if (isValid){
+      _formKey.currentState!.save();
+      print(_user);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: SizedBox(
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () => print('Save'),
+                      onPressed: _save,
                       child: Text(
                         _login ? 'Enter' : 'Register',
                         style: TextStyle(
