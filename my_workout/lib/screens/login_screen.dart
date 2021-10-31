@@ -9,10 +9,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _user = {'email': '', 'password': '', 'confirmPassword': ''};
   final _formKey = GlobalKey<FormState>();
   final _passwordFocus = FocusNode();
   final _confirmPasswordFocus = FocusNode();
   bool loading = false;
+  bool _login = true;
+
+  void _switchMode() {
+    setState(() {
+      _login = !_login;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg1.jpg'),
-            fit: BoxFit.cover
-          ),
+              image: AssetImage('assets/images/bg1.jpg'), fit: BoxFit.cover),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -30,11 +36,15 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: ListView(
               children: [
-                Text(
-                  'MyWorkout',
-                  style: TextStyle(
-                    fontSize: 65,
-                    fontWeight: FontWeight.bold,
+                SizedBox(
+                  height: 140,
+                  child: Text(
+                    'MyWorkout',
+                    style: TextStyle(
+                      fontSize: 55,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 TextFormField(
@@ -47,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: (value) => EmailValidator.validate(value!)
                       ? null
                       : 'Enter a valid email address',
+                  onSaved: (value) => _user['email'] = value!,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
@@ -54,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   focusNode: _passwordFocus,
                   textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) =>
-                      FocusScope.of(context).requestFocus(_confirmPasswordFocus),
+                  onFieldSubmitted: (_) => FocusScope.of(context)
+                      .requestFocus(_confirmPasswordFocus),
                   validator: (value) {
                     String? response;
                     if (value!.length < 6) {
@@ -64,30 +75,44 @@ class _LoginScreenState extends State<LoginScreen> {
                     return response;
                   },
                   obscureText: true,
+                  onSaved: (value) => _user['password'] = value!,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
+                if (!_login)
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                    ),
+                    focusNode: _confirmPasswordFocus,
+                    validator: (value) {
+                      String? response;
+                      if (value!.length < 6) {
+                        response = 'The password is too short.';
+                      }
+                      return response;
+                    },
+                    obscureText: true,
+                    onSaved: (value) => _user['confirmPassword'] = value!,
                   ),
-                  focusNode: _confirmPasswordFocus,
-                  validator: (value) {
-                    String? response;
-                    if (value!.length < 6) {
-                      response = 'The password is too short.';
-                    }
-                    return response;
-                  },
-                  obscureText: true,
-                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: SizedBox(
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () => print('Save'),
-                      child: Text('Enter'),
+                      child: Text(
+                        _login ? 'Enter' : 'Register',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
+                ),
+                TextButton(
+                  onPressed: _switchMode,
+                  child: Text(_login
+                      ? 'I don\'t have an account'
+                      : 'I already have an account'),
                 ),
               ],
             ),
