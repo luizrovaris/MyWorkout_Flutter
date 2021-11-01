@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class AuthProvider with ChangeNotifier {
   final String baseUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
-  final String key = 'AIzaSyCu9vXksv4l23DuUXS4NEQsAyJdnUCkdzI';
+  final String key = 'FakeKey';
 
   Future<void> manageAuth(email, password, action) async {
     try {
