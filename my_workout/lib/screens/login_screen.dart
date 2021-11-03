@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,12 +24,27 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _save(){
+  void _save() async {
     bool isValid = _formKey.currentState!.validate();
 
-    if (isValid){
-      _formKey.currentState!.save();
-      print(_user);
+    if (isValid) {
+      try {
+        _formKey.currentState!.save();
+
+        if (_login) {
+          await Provider.of<AuthProvider>(context, listen: false).manageAuth(
+              _user['email'], _user['password'], 'signInWithPassword');
+        } else {
+          if (_user['password'] == _user['confirmPassword']) {
+            await Provider.of<AuthProvider>(context, listen: false)
+                .manageAuth(_user['email'], _user['password'], 'signUp');
+          } else {
+            print('Invalid password.');
+          }
+        }
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
