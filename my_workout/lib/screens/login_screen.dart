@@ -18,6 +18,17 @@ class _LoginScreenState extends State<LoginScreen> {
   bool loading = false;
   bool _login = true;
 
+  void _showAlert(String title, String content) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(content),
+          );
+        });
+  }
+
   void _switchMode() {
     setState(() {
       _login = !_login;
@@ -39,11 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
             await Provider.of<AuthProvider>(context, listen: false)
                 .manageAuth(_user['email'], _user['password'], 'signUp');
           } else {
-            print('Invalid password.');
+            _showAlert('Invalid form', 'The passwords don\'t match.');
           }
         }
       } catch (e) {
-        print(e);
+        _showAlert('Error', e as String);
       }
     }
   }

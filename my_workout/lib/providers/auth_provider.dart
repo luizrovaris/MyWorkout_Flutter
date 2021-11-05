@@ -16,9 +16,21 @@ class AuthProvider with ChangeNotifier {
         }),
       );
 
-      print(response.statusCode);
-      print(response.body);
-      
+      final decoded = json.decode(response.body) as Map<String, dynamic>;
+
+      if (![200, 201, 202, 204].contains(response.statusCode)){
+        if (decoded['error']['message'] == 'EMAIL_EXISTS') {
+          throw Exception('Email já cadastrado');
+        } else if (decoded['error']['message'] == 'INVALID_EMAIL') {
+          throw Exception('Email inválido');
+        } else if (decoded['error']['message'] == 'WEAK_PASSWORD') {
+          throw Exception('Senha muito fraca');
+        } else if (decoded['error']['message'] == 'EMAIL_NOT_FOUND') {
+          throw Exception('Email não encontrado');
+        } else if (decoded['error']['message'] == 'INVALID_PASSWORD') {
+          throw Exception('Senha inválida');
+        }
+      }      
       notifyListeners();
     } catch (e) {
       throw (e as FormatException).message;
