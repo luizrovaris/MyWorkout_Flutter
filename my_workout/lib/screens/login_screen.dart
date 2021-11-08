@@ -49,6 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
           if (_user['password'] == _user['confirmPassword']) {
             await Provider.of<AuthProvider>(context, listen: false)
                 .manageAuth(_user['email'], _user['password'], 'signUp');
+            _formKey.currentState!.reset();
+            _showAlert('Success', 'You can use the app now.');
+            setState(() {
+              _login = true;
+            });
           } else {
             _showAlert('Invalid form', 'The passwords don\'t match.');
           }
