@@ -5,6 +5,12 @@ import '../models/workout.dart';
 import '../exceptions/api_exception.dart';
 
 class WorkoutProvider with ChangeNotifier {
+
+  final String userId;
+  final String token;
+
+  WorkoutProvider(this.userId, this.token);
+
   List<Workout> workouts = [];
   final String baseUrl =
       'https://workoutapp-dfe56-default-rtdb.europe-west1.firebasedatabase.app/workout';

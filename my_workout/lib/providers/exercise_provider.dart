@@ -5,6 +5,11 @@ import '../exceptions/api_exception.dart';
 import '../models/exercise.dart';
 
 class ExerciseProvider with ChangeNotifier {
+  
+  final String token;
+
+  ExerciseProvider(this.token);
+
   final String baseUrl =
       'https://workoutapp-dfe56-default-rtdb.europe-west1.firebasedatabase.app/exercise';
 
