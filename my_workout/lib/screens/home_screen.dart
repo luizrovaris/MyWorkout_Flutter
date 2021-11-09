@@ -8,7 +8,7 @@ import '../widgets/today_workout.dart';
 import '../utils/utils.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const route = '/';
+  static const route = '/home';
 
   @override
   HomeScreenState createState() => HomeScreenState();

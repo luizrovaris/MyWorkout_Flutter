@@ -139,11 +139,12 @@ class MyApp extends StatelessWidget {
           }
         },),
         routes: {
-          HomeScreen.route + 'h': (_) => HomeScreen(),
+          HomeScreen.route: (_) => HomeScreen(),
           WorkoutScreen.route: (_) => WorkoutScreen(),
           WorkoutManagementScreen.route: (_) => WorkoutManagementScreen(),
           ExerciseScreen.route: (_) => ExerciseScreen(),
           ExerciseManagementScreen.route: (_) => ExerciseManagementScreen(),
+          LoginScreen.route: (_) => LoginScreen(),
         },
       ),
     );
