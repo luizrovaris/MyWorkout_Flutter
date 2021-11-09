@@ -5,15 +5,15 @@ import 'dart:convert';
 class AuthProvider with ChangeNotifier {
   final String baseUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
   final String key = 'AIzaSFyACK9EvKXEkYsv4l23DuUXS4NEQsAyJdnUCkdzI';
-  
+
   late String _userId;
-  late String _token;
+  late String? _token;
 
   String get user {
     return _userId;
   }
 
-  String get token {
+  String? get token {
     return _token;
   }
 
