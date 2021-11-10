@@ -6,10 +6,10 @@ import '../exceptions/api_exception.dart';
 
 class WorkoutProvider with ChangeNotifier {
 
-  final String userId;
-  final String token;
+  final String? userId;
+  final String? token;
 
-  WorkoutProvider(this.userId, this.token);
+  WorkoutProvider([this.userId = '', this.token = '']);
 
   List<Workout> workouts = [];
   final String baseUrl =
@@ -20,7 +20,7 @@ class WorkoutProvider with ChangeNotifier {
       //return await Future.delayed(Duration(seconds: 3), () => [..._workouts]);
       print('GET ALL FROM DB');
       workouts = [];
-      final response = await http.get(Uri.parse('$baseUrl.json'));
+      final response = await http.get(Uri.parse('$baseUrl.json?auth=$token'));
 
       if (![200, 201, 202, 204].contains(response.statusCode)) {
         final message = json.decode(response.body) as Map<String, dynamic>;
@@ -50,7 +50,7 @@ class WorkoutProvider with ChangeNotifier {
   Future<void> add(Workout workout) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl.json'),
+        Uri.parse('$baseUrl.json?auth=$token'),
         body: json.encode(
           {
             'name': workout.name,
@@ -73,7 +73,7 @@ class WorkoutProvider with ChangeNotifier {
 
   Future<void> update(Workout workout) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/${workout.id}.json'),
+      Uri.parse('$baseUrl/${workout.id}.json?auth=$token'),
       body: json.encode({
         'name': workout.name,
         'image': workout.image,
@@ -98,7 +98,7 @@ class WorkoutProvider with ChangeNotifier {
   }
 
   Future<void> delete(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id.json'));
+    final response = await http.delete(Uri.parse('$baseUrl/$id.json?auth=$token'));
     print(response.statusCode);
 
     workouts.removeWhere((element) => element.id == id);

@@ -6,24 +6,25 @@ class AuthProvider with ChangeNotifier {
   final String baseUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
   final String key = 'AIzaSFyACK9EvKXEkYsv4l23DuUXS4NEQsAyJdnUCkdzI';
 
-  late String _userId;
-  late String? _token;
+  String? _userId;
+  String? _token;
 
-  String get user {
+  String? get user {
     return _userId;
   }
 
-  String? get token {
-    return _token;
+  String get token {
+    return _token ?? '';
   }
 
   Future<void> manageAuth(email, password, action) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl:$action?key=[$key]'),
+        Uri.parse('$baseUrl:$action?key=$key'),
         body: jsonEncode({
           'email': email,
-          'password': password
+          'password': password,
+          'returnSecureToken': true,
         }),
       );
 

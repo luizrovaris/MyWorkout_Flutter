@@ -32,12 +32,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider(
           create: (_) => WorkoutProvider('', ''),
           update: (_, auth, workout) =>
-              WorkoutProvider((auth as AuthProvider).user, auth.token!),
+              WorkoutProvider((auth as AuthProvider).user, auth.token),
         ),
         ChangeNotifierProxyProvider(
           create: (_) => ExerciseProvider(''),
           update: (_, auth, exercise) =>
-              ExerciseProvider((auth as AuthProvider).token!),
+              ExerciseProvider((auth as AuthProvider).token),
         ),
       ],
       child: MaterialApp(
@@ -131,13 +131,18 @@ class MyApp extends StatelessWidget {
         ),
         //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
         //home: HomeScreen(), //Mapped above, on routes...
-        home: Consumer<AuthProvider>(builder: (_, provider, widget) {
-          if (provider.token != null){
-            return HomeScreen();
-          } else {
-            return  LoginScreen();
-          }
-        },),
+        home: Consumer<AuthProvider>(
+          builder: (_, provider, widget) {
+            print(provider.token);
+            if (provider.token != '') {
+              print('Home');
+              return HomeScreen();
+            } else {
+              print('Login');
+              return LoginScreen();
+            }
+          },
+        ),
         routes: {
           HomeScreen.route: (_) => HomeScreen(),
           WorkoutScreen.route: (_) => WorkoutScreen(),

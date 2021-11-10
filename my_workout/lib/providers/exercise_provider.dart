@@ -6,9 +6,9 @@ import '../models/exercise.dart';
 
 class ExerciseProvider with ChangeNotifier {
   
-  final String token;
+  final String? token;
 
-  ExerciseProvider(this.token);
+  ExerciseProvider([this.token = '']);
 
   final String baseUrl =
       'https://workoutapp-dfe56-default-rtdb.europe-west1.firebasedatabase.app/exercise';
@@ -16,7 +16,7 @@ class ExerciseProvider with ChangeNotifier {
   Future<List<Exercise>> get(String workoutId) async {
     List<Exercise> exercises = [];
     final response = await http.get(
-        Uri.parse('$baseUrl.json?orderBy="workOutId"&equalTo="$workoutId"'));
+        Uri.parse('$baseUrl.json?auth=$token&orderBy="workOutId"&equalTo="$workoutId"'));
     if (response.body != "null") {
       final decoded = json.decode(response.body) as Map<String, dynamic>;
 
@@ -37,7 +37,7 @@ class ExerciseProvider with ChangeNotifier {
   Future<void> add(Exercise exercise) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl.json'),
+        Uri.parse('$baseUrl.json?auth=$token'),
         body: json.encode(
           {
             'name': exercise.name,
@@ -62,7 +62,7 @@ class ExerciseProvider with ChangeNotifier {
   }
 
   Future<void> delete(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id.json'));
+    final response = await http.delete(Uri.parse('$baseUrl/$id.json?auth=$token'));
     notifyListeners();
   }
 }
