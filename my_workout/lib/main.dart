@@ -29,15 +29,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
         ),
-        ChangeNotifierProxyProvider(
+        ChangeNotifierProxyProvider<AuthProvider, WorkoutProvider>(
           create: (_) => WorkoutProvider('', ''),
-          update: (_, auth, workout) =>
-              WorkoutProvider((auth as AuthProvider).user, auth.token),
+          update: (_, auth, workout) => WorkoutProvider(auth.user, auth.token),
         ),
-        ChangeNotifierProxyProvider(
+        ChangeNotifierProxyProvider<AuthProvider, ExerciseProvider>(
           create: (_) => ExerciseProvider(''),
           update: (_, auth, exercise) =>
-              ExerciseProvider((auth as AuthProvider).token),
+              ExerciseProvider(auth.token),
         ),
       ],
       child: MaterialApp(
