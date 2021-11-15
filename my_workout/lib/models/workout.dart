@@ -3,8 +3,9 @@ class Workout {
   late String name;
   late String image;
   late int weekDay;
+  late String userId;
 
-  Workout([this.id = '', this.name = '', this.image = '', this.weekDay = 0]);
+  Workout([this.id = '', this.name = '', this.image = '', this.weekDay = 0, this.userId = '']);
 
   Workout.fromJson(Map<String, dynamic> json)
       : id = json['id'],
