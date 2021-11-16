@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../screens/home_screen.dart';
 import '../screens/workout_screen.dart';
 
@@ -43,6 +45,21 @@ class AppDrawer extends StatelessWidget {
               //           settings: RouteSettings(arguments: {'Key' : 'Value'}),
               //         ),
               // ), //RouteSettings can be used to send args to the widget that is being opened.
+            ),
+            
+            ListTile(
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              title: Text('LogOut'),
+              onTap: () => Navigator.of(context).popUntil((route) {
+                Provider.of<AuthProvider>(context).logout();
+                if(route.settings.name == '/'){
+                  return true;
+                }
+                return false;
+              }),
             ),
           ],
         ),

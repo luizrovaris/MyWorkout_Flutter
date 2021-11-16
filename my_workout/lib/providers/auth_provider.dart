@@ -51,4 +51,10 @@ class AuthProvider with ChangeNotifier {
       throw (e as FormatException).message;
     }
   }
+
+  void logout(){
+    _userId = null;
+    _token = null;
+    notifyListeners();
+  }
 }
