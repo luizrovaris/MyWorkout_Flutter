@@ -11,13 +11,16 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   final _user = {'email': '', 'password': '', 'confirmPassword': ''};
   final _formKey = GlobalKey<FormState>();
   final _passwordFocus = FocusNode();
   final _confirmPasswordFocus = FocusNode();
   bool loading = false;
   bool _login = true;
+  late AnimationController _controller;
+  late Animation<Size> _heightAnimation;
 
   void _showAlert(String title, String content) {
     showDialog(
@@ -31,6 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _switchMode() {
+    if (_login){
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+
     setState(() {
       _login = !_login;
     });
@@ -66,6 +75,34 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 500,
+      ),
+    );
+
+    _heightAnimation = Tween<Size>(
+            begin: Size(double.infinity, 200), end: Size(double.infinity, 0))
+        .animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.linear,
+      ),
+    );
+
+    _heightAnimation.addListener(() { setState(() {});});
+  }
+
+  @override void dispose() {
+    super.dispose();
+
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -80,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: ListView(
               children: [
                 SizedBox(
-                  height: 140,
+                  height: _heightAnimation.value.height,
                   child: Text(
                     'MyWorkout',
                     style: TextStyle(
