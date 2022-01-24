@@ -157,21 +157,25 @@ class _LoginScreenState extends State<LoginScreen>
                   obscureText: true,
                   onSaved: (value) => _user['password'] = value!,
                 ),
-                if (!_login)
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
+                //if (!_login)
+                  AnimatedOpacity(
+                    opacity: _login ? 0 : 1,
+                    duration: Duration(microseconds: 500),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                      ),
+                      focusNode: _confirmPasswordFocus,
+                      validator: (value) {
+                        String? response;
+                        if (value!.length < 6) {
+                          response = 'The password is too short.';
+                        }
+                        return response;
+                      },
+                      obscureText: true,
+                      onSaved: (value) => _user['confirmPassword'] = value!,
                     ),
-                    focusNode: _confirmPasswordFocus,
-                    validator: (value) {
-                      String? response;
-                      if (value!.length < 6) {
-                        response = 'The password is too short.';
-                      }
-                      return response;
-                    },
-                    obscureText: true,
-                    onSaved: (value) => _user['confirmPassword'] = value!,
                   ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
