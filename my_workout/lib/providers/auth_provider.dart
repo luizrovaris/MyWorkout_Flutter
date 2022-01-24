@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class AuthProvider with ChangeNotifier {
   final String baseUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
-  final String key = 'AIzaSFyACK9EvKXEkYsv4l23DuUXS4NEQsAyJdnUCkdzI';
+  final String key = '----';
 
   String? _userId;
   String? _token;
