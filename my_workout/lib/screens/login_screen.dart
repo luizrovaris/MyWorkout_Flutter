@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen>
       ),
     );
 
-    _heightAnimation.addListener(() { setState(() {});});
+    //_heightAnimation.addListener(() { setState(() {});});
   }
 
   @override void dispose() {
@@ -116,8 +116,14 @@ class _LoginScreenState extends State<LoginScreen>
             key: _formKey,
             child: ListView(
               children: [
-                SizedBox(
-                  height: _heightAnimation.value.height,
+                AnimatedBuilder(
+                  animation: _heightAnimation,
+                  builder: (ctx, child) {
+                    return SizedBox(
+                      height: _heightAnimation.value.height,
+                      child: child,
+                    );
+                  },
                   child: Text(
                     'MyWorkout',
                     style: TextStyle(
@@ -126,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen>
                       color: Colors.white,
                     ),
                   ),
-                ),
+                ),                
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Email',
