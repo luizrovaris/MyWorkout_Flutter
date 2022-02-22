@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen>
   final _formKey = GlobalKey<FormState>();
   final _passwordFocus = FocusNode();
   final _confirmPasswordFocus = FocusNode();
-  bool loading = false;
+  bool _loading = false;
   bool _login = true;
   late AnimationController _controller;
   late Animation<Size> _heightAnimation;
@@ -49,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen>
     bool isValid = _formKey.currentState!.validate();
 
     if (isValid) {
+      setState(() {
+        _loading = true;
+      });
       try {
         _formKey.currentState!.save();
 
@@ -61,15 +64,17 @@ class _LoginScreenState extends State<LoginScreen>
                 .manageAuth(_user['email'], _user['password'], 'signUp');
             _formKey.currentState!.reset();
             _showAlert('Success', 'You can use the app now.');
-            setState(() {
-              _login = true;
-            });
+            _switchMode( );
           } else {
             _showAlert('Invalid form', 'The passwords don\'t match.');
           }
         }
       } catch (e) {
         _showAlert('Error', e as String);
+      } finally {
+        setState(() {
+          _loading = false;
+        });
       }
     }
   }
@@ -174,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen>
                       focusNode: _confirmPasswordFocus,
                       validator: (value) {
                         String? response;
-                        if (value!.length < 6) {
+                        if (value!.length < 6 && !_login) {
                           response = 'The password is too short.';
                         }
                         return response;
@@ -183,27 +188,33 @@ class _LoginScreenState extends State<LoginScreen>
                       onSaved: (value) => _user['confirmPassword'] = value!,
                     ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: _save,
-                      child: Text(
-                        _login ? 'Enter' : 'Register',
-                        style: TextStyle(
-                          color: Colors.white,
+                if (!_loading)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _save,
+                        child: Text(
+                          _login ? 'Enter' : 'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                TextButton(
-                  onPressed: _switchMode,
-                  child: Text(_login
-                      ? 'I don\'t have an account'
-                      : 'I already have an account'),
-                ),
+                if (!_loading)
+                  TextButton(
+                    onPressed: _switchMode,
+                    child: Text(_login
+                        ? 'I don\'t have an account'
+                        : 'I already have an account'),
+                  ),
+                if (_loading)
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
               ],
             ),
           ),
