@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../screens/home_screen.dart';
 import '../screens/workout_screen.dart';
+import '../helpers/custom_page_transition.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -29,6 +30,7 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
               title: Text('Workouts'),
+              // onTap: () => Navigator.of(context).push(CustomPageTransition(builder: (_) => WorkoutScreen())),
               onTap: () => Navigator.of(context).pushNamed(
                 WorkoutScreen.route,
                 arguments: {'Key': 'Value'},

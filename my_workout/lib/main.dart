@@ -9,6 +9,7 @@ import '../screens/workout_management_screen.dart';
 import '../screens/workout_screen.dart';
 import '../screens/home_screen.dart';
 import '../providers/exercise_provider.dart';
+import 'helpers/custom_page_transition.dart';
 
 void main() {
   runApp(MyApp());
@@ -127,6 +128,10 @@ class MyApp extends StatelessWidget {
               fontSize: Theme.of(context).textTheme.headline6!.fontSize,
             ),
           ),
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.android: CustomPageTransitionBuilder(),
+            TargetPlatform.iOS: CustomPageTransitionBuilder(),
+          })
         ),
         //initialRoute: '/other_screen', //Can be used to change initial screen route (by default is home ('/'))
         //home: HomeScreen(), //Mapped above, on routes...
