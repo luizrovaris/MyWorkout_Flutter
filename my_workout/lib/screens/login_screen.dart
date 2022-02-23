@@ -169,23 +169,27 @@ class _LoginScreenState extends State<LoginScreen>
                   onSaved: (value) => _user['password'] = value!,
                 ),
                 //if (!_login)
-                  AnimatedOpacity(
-                    opacity: _login ? 0 : 1,
-                    duration: Duration(microseconds: 500),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 500),
+                    height: _login ? 0 : 50 ,
+                    child: AnimatedOpacity(
+                      opacity: _login ? 0 : 1,
+                      duration: Duration(microseconds: 500),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                        ),
+                        focusNode: _confirmPasswordFocus,
+                        validator: (value) {
+                          String? response;
+                          if (value!.length < 6 && !_login) {
+                            response = 'The password is too short.';
+                          }
+                          return response;
+                        },
+                        obscureText: true,
+                        onSaved: (value) => _user['confirmPassword'] = value!,
                       ),
-                      focusNode: _confirmPasswordFocus,
-                      validator: (value) {
-                        String? response;
-                        if (value!.length < 6 && !_login) {
-                          response = 'The password is too short.';
-                        }
-                        return response;
-                      },
-                      obscureText: true,
-                      onSaved: (value) => _user['confirmPassword'] = value!,
                     ),
                   ),
                 if (!_loading)
