@@ -13,7 +13,7 @@ class ExerciseCard extends StatelessWidget {
   void _delete(BuildContext context) async {
     await Provider.of<ExerciseProvider>(context, listen: false).delete(id);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,11 +30,12 @@ class ExerciseCard extends StatelessWidget {
             color: Theme.of(context).textTheme.subtitle2?.color,
           ),
         ),
-        leading: Image.network(
-          this.imageUrl,
+        leading: FadeInImage(
+          placeholder: AssetImage('assets/images/halter.png'),
           width: 50,
           height: 50,
           fit: BoxFit.cover,
+          image: NetworkImage(imageUrl),
         ),
         trailing: IconButton(
           onPressed: () => _delete(context),
